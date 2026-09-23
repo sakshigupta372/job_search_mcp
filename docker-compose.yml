@@ -1,0 +1,10 @@
+services:
+  job-search-mcp:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      TRANSPORT: streamable-http
+      HOST: 0.0.0.0
+      PORT: 8000
+      RAPIDAPI_KEY: ${RAPIDAPI_KEY:-}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "job-search": {
+      "command": "C:/Users/hp/OneDrive/Documents/Desktop/Job_Search_MCP/.venv/Scripts/python.exe",
+      "args": ["-m", "app.server"],
+      "cwd": "C:/Users/hp/OneDrive/Documents/Desktop/Job_Search_MCP",
+      "env": {
+        "TRANSPORT": "stdio"
+      }
+    }
+  }
+}

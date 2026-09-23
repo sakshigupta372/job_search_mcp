@@ -1,0 +1,165 @@
+[
+  {
+    "job_id": "job-001",
+    "title": "AI Engineer",
+    "company": "Nimbus Labs",
+    "location": "Bangalore, India",
+    "experience": "0-2 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-001",
+    "apply_url": "https://example.com/jobs/job-001/apply",
+    "description": "Build and ship LLM features for an internal copilot used by customer-support teams. You will write Python services, evaluate prompts, and work with product on retrieval quality.",
+    "requirements": [
+      "Python",
+      "Familiarity with LLMs or OpenAI/Gemini APIs",
+      "0-2 years of software or ML experience",
+      "Basic SQL"
+    ]
+  },
+  {
+    "job_id": "job-002",
+    "title": "Junior Machine Learning Engineer",
+    "company": "Kite Analytics",
+    "location": "Bangalore, India",
+    "experience": "1-3 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-002",
+    "apply_url": "https://example.com/jobs/job-002/apply",
+    "description": "Train and monitor classical ML models for demand forecasting. Pair with senior engineers on feature pipelines and model evaluation.",
+    "requirements": [
+      "Python",
+      "pandas / scikit-learn",
+      "1+ year of ML or data experience"
+    ]
+  },
+  {
+    "job_id": "job-003",
+    "title": "AI Engineer Intern",
+    "company": "Harbor AI",
+    "location": "Bangalore, India",
+    "experience": "0-1 years",
+    "job_type": "Internship",
+    "job_url": "https://example.com/jobs/job-003",
+    "apply_url": "https://example.com/jobs/job-003/apply",
+    "description": "12-week internship focused on RAG prototypes: chunking, embeddings, and a simple chat UI over company docs.",
+    "requirements": [
+      "Python coursework or personal projects",
+      "Interest in generative AI",
+      "Git basics"
+    ]
+  },
+  {
+    "job_id": "job-004",
+    "title": "Backend Engineer",
+    "company": "Orbit Payments",
+    "location": "Hyderabad, India",
+    "experience": "2-4 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-004",
+    "apply_url": "https://example.com/jobs/job-004/apply",
+    "description": "Own REST APIs for merchant onboarding. Work in Python/FastAPI with PostgreSQL and background workers.",
+    "requirements": [
+      "Python",
+      "REST APIs",
+      "SQL",
+      "2+ years backend experience"
+    ]
+  },
+  {
+    "job_id": "job-005",
+    "title": "Senior AI Engineer",
+    "company": "Northstar Robotics",
+    "location": "Bangalore, India",
+    "experience": "5+ years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-005",
+    "apply_url": "https://example.com/jobs/job-005/apply",
+    "description": "Lead the perception model stack. Mentor junior engineers and set evaluation standards for production models.",
+    "requirements": [
+      "PyTorch",
+      "Production ML experience",
+      "5+ years overall experience"
+    ]
+  },
+  {
+    "job_id": "job-006",
+    "title": "AI Engineer",
+    "company": "Cloudspan",
+    "location": "Remote, India",
+    "experience": "0-2 years",
+    "job_type": "Contract",
+    "job_url": "https://example.com/jobs/job-006",
+    "apply_url": "https://example.com/jobs/job-006/apply",
+    "description": "6-month contract to integrate an existing LLM chatbot into Slack. Mostly Python glue code, logging, and evals.",
+    "requirements": [
+      "Python",
+      "HTTP APIs",
+      "Comfortable working remotely"
+    ]
+  },
+  {
+    "job_id": "job-007",
+    "title": "Data Scientist",
+    "company": "Leaf Retail",
+    "location": "Mumbai, India",
+    "experience": "1-3 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-007",
+    "apply_url": "https://example.com/jobs/job-007/apply",
+    "description": "Analyze customer funnels and build scoring models that sales can use weekly. Mix of SQL, Python notebooks, and stakeholder demos.",
+    "requirements": [
+      "SQL",
+      "Python",
+      "Statistics fundamentals"
+    ]
+  },
+  {
+    "job_id": "job-008",
+    "title": "GenAI Developer",
+    "company": "PixelWorks",
+    "location": "Pune, India",
+    "experience": "0-2 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-008",
+    "apply_url": "https://example.com/jobs/job-008/apply",
+    "description": "Ship prompt-driven features in a design tool. You will call vision + text models and write thin FastAPI wrappers.",
+    "requirements": [
+      "Python or JavaScript",
+      "Experience calling LLM APIs",
+      "Interest in product UI"
+    ]
+  },
+  {
+    "job_id": "job-009",
+    "title": "Platform Engineer",
+    "company": "Nimbus Labs",
+    "location": "Bangalore, India",
+    "experience": "3-5 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-009",
+    "apply_url": "https://example.com/jobs/job-009/apply",
+    "description": "Keep the AI product's infra boring: Docker, CI, and a small Kubernetes cluster. Partner with AI engineers on GPU job queues.",
+    "requirements": [
+      "Docker",
+      "Linux",
+      "CI/CD",
+      "3+ years experience"
+    ]
+  },
+  {
+    "job_id": "job-010",
+    "title": "AI Engineer",
+    "company": "Helio Health",
+    "location": "Chennai, India",
+    "experience": "0-2 years",
+    "job_type": "Full-time",
+    "job_url": "https://example.com/jobs/job-010",
+    "apply_url": "https://example.com/jobs/job-010/apply",
+    "description": "Help clinicians search guidelines with RAG. Strong emphasis on evaluation, citations, and not hallucinating medical advice.",
+    "requirements": [
+      "Python",
+      "Careful written communication",
+      "Interest in healthcare"
+    ]
+  }
+]

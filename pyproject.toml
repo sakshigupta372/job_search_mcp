@@ -1,0 +1,27 @@
+[project]
+name = "job-search-mcp"
+version = "0.2.0"
+description = "MCP server that lets an AI assistant search and retrieve job listings"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=2.0",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+job-search-mcp = "app.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"app/data/jobs.json" = "app/data/jobs.json"
+"app/templates/index.html" = "app/templates/index.html"

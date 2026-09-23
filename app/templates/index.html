@@ -1,0 +1,353 @@
+<title>Job Search MCP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f7fb;
+    --panel: #ffffff;
+    --text: #1a1d29;
+    --muted: #5b6072;
+    --border: #e3e5ec;
+    --accent: #4f46e5;
+    --accent-text: #ffffff;
+    --badge-bg: #eef0ff;
+    --badge-text: #4338ca;
+    --error-bg: #fdecec;
+    --error-text: #a12a2a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14151f;
+      --panel: #1d1f2b;
+      --text: #eceef5;
+      --muted: #9498a8;
+      --border: #2c2f3d;
+      --accent: #7c72ff;
+      --accent-text: #14151f;
+      --badge-bg: #262a45;
+      --badge-text: #b6b0ff;
+      --error-bg: #3a2020;
+      --error-text: #f2a3a3;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 32px 20px 64px; }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+  header p { margin: 0 0 24px; color: var(--muted); font-size: 0.95rem; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .field-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .field { flex: 1 1 160px; display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: 0.8rem; color: var(--muted); }
+  input, select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-text); }
+  .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .actions { display: flex; gap: 10px; margin-top: 14px; }
+
+  #status { min-height: 1.4em; margin-bottom: 12px; font-size: 0.9rem; color: var(--muted); }
+  .error-banner {
+    background: var(--error-bg); color: var(--error-text);
+    border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.9rem;
+  }
+
+  .results { display: grid; gap: 14px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+  .card .company { color: var(--muted); font-size: 0.9rem; margin-bottom: 10px; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .badge {
+    background: var(--badge-bg); color: var(--badge-text);
+    font-size: 0.78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  }
+  .card-actions { display: flex; gap: 10px; }
+  .card-actions a, .card-actions button { text-decoration: none; font-size: 0.88rem; padding: 8px 14px; }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    display: none; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--panel); border-radius: 12px; max-width: 560px; width: 100%;
+    max-height: 80vh; overflow-y: auto; padding: 24px; border: 1px solid var(--border);
+  }
+  .modal h2 { margin: 0 0 4px; }
+  .modal .company { color: var(--muted); margin-bottom: 16px; }
+  .modal ul { padding-left: 20px; }
+  .modal-close { float: right; }
+
+  footer { margin-top: 32px; color: var(--muted); font-size: 0.82rem; text-align: center; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Job Search MCP</h1>
+    <p>Search live job postings (JSearch API, with sample-data fallback) &mdash; the same tools an AI assistant calls over MCP.</p>
+  </header>
+
+  <div class="panel">
+    <form id="search-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="keyword">Role / keyword</label>
+          <input id="keyword" name="keyword" placeholder="AI Engineer" required />
+        </div>
+        <div class="field">
+          <label for="location">Location</label>
+          <input id="location" name="location" placeholder="Bangalore" />
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn-primary">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel" id="filter-panel" style="display:none;">
+    <div class="field-row">
+      <div class="field">
+        <label for="filter-experience">Experience</label>
+        <input id="filter-experience" placeholder="0-2" />
+      </div>
+      <div class="field">
+        <label for="filter-location">Location contains</label>
+        <input id="filter-location" placeholder="Bangalore" />
+      </div>
+      <div class="field">
+        <label for="filter-type">Job type</label>
+        <select id="filter-type">
+          <option value="">Any</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+          <option value="Intern">Intern</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" id="apply-filter" class="btn-primary">Apply filters</button>
+      <button type="button" id="clear-filter" class="btn-secondary">Clear</button>
+    </div>
+  </div>
+
+  <div id="status"></div>
+  <div id="error" class="error-banner" style="display:none;"></div>
+  <div class="results" id="results"></div>
+
+  <footer>
+    Backed by the same <code>search_jobs</code> / <code>filter_jobs</code> / <code>get_job_details</code> MCP tools an AI client would call.
+  </footer>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="btn-secondary modal-close" id="modal-close">Close</button>
+    <h2 id="modal-title"></h2>
+    <div class="company" id="modal-company"></div>
+    <div class="badges" id="modal-badges"></div>
+    <p id="modal-description"></p>
+    <div id="modal-requirements-wrap">
+      <strong>Requirements</strong>
+      <ul id="modal-requirements"></ul>
+    </div>
+    <div class="card-actions">
+      <a id="modal-apply" class="btn-primary" href="#" target="_blank" rel="noopener">Apply &#8599;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("search-form");
+  const filterPanel = document.getElementById("filter-panel");
+  const statusEl = document.getElementById("status");
+  const errorEl = document.getElementById("error");
+  const resultsEl = document.getElementById("results");
+
+  function escapeHtml(value) {
+    const div = document.createElement("div");
+    div.textContent = value == null ? "" : String(value);
+    return div.innerHTML;
+  }
+
+  function showError(message) {
+    errorEl.textContent = message;
+    errorEl.style.display = "block";
+  }
+  function clearError() {
+    errorEl.style.display = "none";
+    errorEl.textContent = "";
+  }
+
+  function renderJobs(jobs, sourceLabel) {
+    resultsEl.innerHTML = "";
+    if (!jobs.length) {
+      resultsEl.innerHTML = '<p style="color:var(--muted)">No jobs found.</p>';
+      return;
+    }
+    statusEl.textContent = `${jobs.length} job(s) found${sourceLabel ? " · source: " + sourceLabel : ""}`;
+    for (const job of jobs) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${escapeHtml(job.title)}</h3>
+        <div class="company">${escapeHtml(job.company || "Unknown company")}</div>
+        <div class="badges">
+          <span class="badge">${escapeHtml(job.location || "Location N/A")}</span>
+          <span class="badge">${escapeHtml(job.experience || "Experience N/A")}</span>
+          <span class="badge">${escapeHtml(job.job_type || "Type N/A")}</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-secondary details-btn" data-id="${escapeHtml(job.job_id)}">Details</button>
+          ${job.job_url ? `<a class="btn-primary" href="${escapeHtml(job.job_url)}" target="_blank" rel="noopener">Apply &#8599;</a>` : ""}
+        </div>
+      `;
+      resultsEl.appendChild(card);
+    }
+    document.querySelectorAll(".details-btn").forEach((btn) => {
+      btn.addEventListener("click", () => openDetails(btn.dataset.id));
+    });
+  }
+
+  async function openDetails(jobId) {
+    clearError();
+    try {
+      const res = await fetch(`/api/jobs/${encodeURIComponent(jobId)}`);
+      const data = await res.json();
+      if (!data.success) {
+        showError(data.error || "Could not load job details.");
+        return;
+      }
+      const job = data.job;
+      document.getElementById("modal-title").textContent = job.title || "";
+      document.getElementById("modal-company").textContent = job.company || "";
+      document.getElementById("modal-description").textContent = job.description || "No description provided.";
+      const badgesEl = document.getElementById("modal-badges");
+      badgesEl.innerHTML = "";
+      [job.location, job.experience, job.job_type].forEach((text) => {
+        if (!text) return;
+        const span = document.createElement("span");
+        span.className = "badge";
+        span.textContent = text;
+        badgesEl.appendChild(span);
+      });
+      const reqEl = document.getElementById("modal-requirements");
+      reqEl.innerHTML = "";
+      const reqs = job.requirements || [];
+      document.getElementById("modal-requirements-wrap").style.display = reqs.length ? "block" : "none";
+      reqs.forEach((req) => {
+        const li = document.createElement("li");
+        li.textContent = req;
+        reqEl.appendChild(li);
+      });
+      const applyLink = document.getElementById("modal-apply");
+      if (job.apply_url) {
+        applyLink.href = job.apply_url;
+        applyLink.style.display = "inline-block";
+      } else {
+        applyLink.style.display = "none";
+      }
+      document.getElementById("modal-overlay").classList.add("open");
+    } catch (err) {
+      showError("Network error loading job details.");
+    }
+  }
+
+  document.getElementById("modal-close").addEventListener("click", () => {
+    document.getElementById("modal-overlay").classList.remove("open");
+  });
+  document.getElementById("modal-overlay").addEventListener("click", (e) => {
+    if (e.target.id === "modal-overlay") e.target.classList.remove("open");
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearError();
+    statusEl.textContent = "Searching...";
+    resultsEl.innerHTML = "";
+    const keyword = document.getElementById("keyword").value.trim();
+    const location = document.getElementById("location").value.trim();
+    try {
+      const res = await fetch("/api/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyword, location }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        statusEl.textContent = "";
+        showError(data.error || "Search failed.");
+        return;
+      }
+      filterPanel.style.display = "block";
+      renderJobs(data.jobs, data.source);
+    } catch (err) {
+      statusEl.textContent = "";
+      showError("Network error contacting the server.");
+    }
+  });
+
+  document.getElementById("apply-filter").addEventListener("click", async () => {
+    clearError();
+    statusEl.textContent = "Filtering...";
+    try {
+      const res = await fetch("/api/filter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          experience: document.getElementById("filter-experience").value.trim(),
+          location: document.getElementById("filter-location").value.trim(),
+          job_type: document.getElementById("filter-type").value,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        statusEl.textContent = "";
+        showError(data.error || "Filter failed.");
+        return;
+      }
+      renderJobs(data.jobs);
+    } catch (err) {
+      statusEl.textContent = "";
+      showError("Network error contacting the server.");
+    }
+  });
+
+  document.getElementById("clear-filter").addEventListener("click", () => {
+    document.getElementById("filter-experience").value = "";
+    document.getElementById("filter-location").value = "";
+    document.getElementById("filter-type").value = "";
+    form.requestSubmit();
+  });
+</script>
